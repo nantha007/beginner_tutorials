@@ -1,0 +1,24 @@
+<launch>
+  <arg
+    name="bufferSize"
+    default="1000"
+  />
+  <node
+    pkg="beginner_tutorials"
+    type="messageModificationService"
+    name="messageModificationService"
+  />
+  <node
+    pkg="beginner_tutorials"
+    type="talker"
+    name="talker"
+    launch-prefix="xterm -e"
+  />
+  <node
+    pkg="beginner_tutorials"
+    type="listener"
+    name="listener"
+    launch-prefix="xterm -e"
+    args="$(arg bufferSize)"
+  />
+</launch>
