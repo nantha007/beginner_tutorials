@@ -29,22 +29,38 @@
 #include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "beginner_tutorials/messageModifier.h"
+/**
+ *  @brief main function takes message from server MessageModifier
+ *         and send it to the channel chatter
+ *  @param argc is the number of argument
+ *  @param argv is the arguments
+ *  @return None
+ */
 int main(int argc, char **argv) {
   ros::init(argc, argv, "talker");
   ros::NodeHandle n;
+  int frequency = 10;
+  std::string initString;
   ros::Publisher chatter_pub = n.advertise < std_msgs::String
       > ("chatter", 1000);
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(frequency);
+  ros::ServiceClient client = n.serviceClient
+      < beginner_tutorials::messageModifier > ("MessageModiFier");
+  beginner_tutorials::messageModifier str;
+  str.request.newMessage = initString;
+  client.call(str);
+  initString = str.response.responseMessage;
   /**
    * The loop send the string "ROS tutorials" 
-   * to the channel chatter along with the count 
+   * to the topic chatter along with the count 
    * of the loop iteration
    */
   int count = 0;
   while (ros::ok()) {
     std_msgs::String msg;
     std::stringstream ss;
-    ss << "ROS tutorial" << count;
+    ss << initString << count;
     msg.data = ss.str();
     ROS_INFO("%s", msg.data.c_str());
     chatter_pub.publish(msg);
@@ -54,3 +70,4 @@ int main(int argc, char **argv) {
   }
   return 0;
 }
+
