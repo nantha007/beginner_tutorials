@@ -36,10 +36,38 @@
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
+/**
+ *  @brief main function takes message on topic chatter
+ *  @param argc is the number of argument
+ *  @param argv is the arguments
+ *  @return None
+ */
 int main(int argc, char **argv) {
   ros::init(argc, argv, "listener");
+  int bufferSize;
+  int userBufferSize;
   ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+  if (argc == 2) {
+    userBufferSize = atoi(argv[1]);
+  }
+  ROS_INFO_STREAM("User entered BufferSize as :" << userBufferSize);
+  if (argc != 2) {
+    ROS_WARN_STREAM("There is No input argument!!");
+    ROS_INFO_STREAM("Default value is taken");
+    bufferSize = 1000;
+  } else if (userBufferSize < 0) {
+    ROS_FATAL_STREAM("BUFFER SIZE ENTERED IS NEGATIVE!!");
+    ROS_INFO_STREAM("Taking Default value 1000 as Buffer Size.");
+    bufferSize = 1000;
+  } else if (userBufferSize == 0) {
+    ROS_ERROR_STREAM("BUFFER SIZE ENTERED IS ZERO!!!");
+    ROS_INFO_STREAM("Taking Default value 1000 as buffer size");
+    bufferSize = 1000;
+  } else {
+    ROS_DEBUG_STREAM("The buffer size has been entered correctly!!");
+    bufferSize = userBufferSize;
+  }
+  ros::Subscriber sub = n.subscribe("chatter", bufferSize, chatterCallback);
   ros::spin();
   return 0;
 }
