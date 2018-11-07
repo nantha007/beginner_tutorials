@@ -1,3 +1,7 @@
-Done processing listener.cpp
 Done processing talker.cpp
+messageModificationService.cpp:39:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::messageModifier::Request &request  [runtime/references] [2]
+messageModificationService.cpp:40:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::messageModifier::Response &response  [runtime/references] [2]
+Done processing messageModificationService.cpp
+Done processing listener.cpp
+Total errors found: 2
 
