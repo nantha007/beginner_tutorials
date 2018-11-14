@@ -1,0 +1,19 @@
+<launch>
+    <node 
+      pkg="beginner_tutorials" 
+      type="messageModificationService" 
+      name="messageModificationService" 
+      launch-prefix="xterm -e"
+    />
+    <node 
+      pkg="beginner_tutorials" 
+      type="talker" 
+      name="talker" 
+      launch-prefix="xterm -e"
+    />
+    <test 
+      pkg="beginner_tutorials" 
+      test-name="integrationTest" 
+      type="integrationTest"
+    />
+</launch>

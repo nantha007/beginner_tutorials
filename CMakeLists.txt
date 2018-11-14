@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  tf
 )
 add_service_files(FILES messageModifier.srv)
 generate_messages(
@@ -25,3 +26,15 @@ add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 add_executable(messageModificationService src/messageModificationService.cpp)
 target_link_libraries(messageModificationService ${catkin_LIBRARIES})
 add_dependencies(messageModificationService beginner_tutorials_generate_messages_cpp)
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(integrationTest test/integrationTest.launch test/integrationTest.cpp )
+  target_link_libraries(integrationTest ${catkin_LIBRARIES})
+  add_dependencies(
+  integrationTest
+  ${PROJECT_NAME}_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+
+endif()
