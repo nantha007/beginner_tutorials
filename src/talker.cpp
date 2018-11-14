@@ -26,6 +26,7 @@
  *  @author Nantha Kumar Sunder
  *  @copyright 2018
  */
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -51,6 +52,9 @@ int main(int argc, char **argv) {
   str.request.newMessage = initString;
   client.call(str);
   initString = str.response.responseMessage;
+  /*!<initializing a broadcaster*/
+  tf::TransformBroadcaster br;
+  tf::Transform transform;
   /**
    * The loop send the string "ROS tutorials" 
    * to the topic chatter along with the count 
@@ -64,6 +68,11 @@ int main(int argc, char **argv) {
     msg.data = ss.str();
     ROS_INFO("%s", msg.data.c_str());
     chatter_pub.publish(msg);
+    /*!<Broadcasting the TF*/
+    transform.setOrigin(tf::Vector3(1.0, 2.0, 3.0));
+    transform.setRotation(tf::Quaternion(0.1, 0.2, 0.3, 0.4));
+    br.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     ros::spinOnce();
     loop_rate.sleep();
     ++count;
