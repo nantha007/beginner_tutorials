@@ -3,6 +3,10 @@
     name="bufferSize"
     default="1000"
   />
+  <arg 
+    name="rec"
+    default="0"
+  />
   <node
     pkg="beginner_tutorials"
     type="messageModificationService"
@@ -21,4 +25,10 @@
     launch-prefix="xterm -e"
     args="$(arg bufferSize)"
   />
+  <node 
+    pkg="rosbag" 
+    type="record" 
+    name="record"
+    args="-a -O $(find beginner_tutorials)/record.bag"
+    if="$(arg rec)"/>
 </launch>

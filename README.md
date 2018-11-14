@@ -84,3 +84,53 @@ source devel/setup.bash
 catkin_make
 roslaunch beginner_tutorials beginner_tutorials.launch bufferSize:=<enter the buffer size here>
 ```
+
+To run rosbag, enter the following commands
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+catkin_make
+roslaunch beginner_tutorials beginner_tutorials.launch rec:=1
+```
+
+## Instruction to run test
+
+To run rostest, enter the following commands
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+catkin_make
+rostest beginner_tutorials integrationTest.launch
+```
+
+## Instruction to play the rosbag file
+
+First, run the roscore
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+catkin_make
+roscore
+```
+
+Secondly, run the listener node
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+rosrun beginner_tutorials listener
+```
+
+Finally, play the record.bag file
+
+```
+cd ~/catkin_ws/src/beginner_tutorials/Results
+source devel/setup.bash
+rosbag play record.bag
+```
+
+
+
